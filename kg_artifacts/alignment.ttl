@@ -1,0 +1,361 @@
+@prefix dbo: <http://dbpedia.org/ontology/> .
+@prefix dbr: <http://dbpedia.org/resource/> .
+@prefix nba: <http://nba-kg.org/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix res: <http://nba-kg.org/resource/> .
+@prefix wd: <http://www.wikidata.org/entity/> .
+@prefix wdt: <http://www.wikidata.org/prop/direct/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://nba-kg.org/alignment/Anthony_Davis> a nba:AlignmentRecord ;
+    nba:confidence 1e+00 ;
+    nba:dbpediaURI dbr:Anthony_Davis ;
+    nba:method "manual-verified" ;
+    nba:sourceEntity res:Anthony_Davis ;
+    nba:wikidataURI wd:Q1075660 .
+
+<http://nba-kg.org/alignment/Boston_Celtics> a nba:AlignmentRecord ;
+    nba:confidence 1e+00 ;
+    nba:dbpediaURI dbr:Boston_Celtics ;
+    nba:method "manual-verified" ;
+    nba:sourceEntity res:Boston_Celtics ;
+    nba:wikidataURI wd:Q131172 .
+
+<http://nba-kg.org/alignment/Brooklyn_Nets> a nba:AlignmentRecord ;
+    nba:confidence 1e+00 ;
+    nba:dbpediaURI dbr:Brooklyn_Nets ;
+    nba:method "manual-verified" ;
+    nba:sourceEntity res:Brooklyn_Nets ;
+    nba:wikidataURI wd:Q168131 .
+
+<http://nba-kg.org/alignment/Chicago_Bulls> a nba:AlignmentRecord ;
+    nba:confidence 1e+00 ;
+    nba:dbpediaURI dbr:Chicago_Bulls ;
+    nba:method "manual-verified" ;
+    nba:sourceEntity res:Chicago_Bulls ;
+    nba:wikidataURI wd:Q131209 .
+
+<http://nba-kg.org/alignment/Dallas_Mavericks> a nba:AlignmentRecord ;
+    nba:confidence 1e+00 ;
+    nba:dbpediaURI dbr:Dallas_Mavericks ;
+    nba:method "manual-verified" ;
+    nba:sourceEntity res:Dallas_Mavericks ;
+    nba:wikidataURI wd:Q157403 .
+
+<http://nba-kg.org/alignment/Damian_Lillard> a nba:AlignmentRecord ;
+    nba:confidence 1e+00 ;
+    nba:dbpediaURI dbr:Damian_Lillard ;
+    nba:method "manual-verified" ;
+    nba:sourceEntity res:Damian_Lillard ;
+    nba:wikidataURI wd:Q1093497 .
+
+<http://nba-kg.org/alignment/Denver_Nuggets> a nba:AlignmentRecord ;
+    nba:confidence 1e+00 ;
+    nba:dbpediaURI dbr:Denver_Nuggets ;
+    nba:method "manual-verified" ;
+    nba:sourceEntity res:Denver_Nuggets ;
+    nba:wikidataURI wd:Q157384 .
+
+<http://nba-kg.org/alignment/Dirk_Nowitzki> a nba:AlignmentRecord ;
+    nba:confidence 1e+00 ;
+    nba:dbpediaURI dbr:Dirk_Nowitzki ;
+    nba:method "manual-verified" ;
+    nba:sourceEntity res:Dirk_Nowitzki ;
+    nba:wikidataURI wd:Q183700 .
+
+<http://nba-kg.org/alignment/Giannis_Antetokounmpo> a nba:AlignmentRecord ;
+    nba:confidence 1e+00 ;
+    nba:dbpediaURI dbr:Giannis_Antetokounmpo ;
+    nba:method "manual-verified" ;
+    nba:sourceEntity res:Giannis_Antetokounmpo ;
+    nba:wikidataURI wd:Q1282327 .
+
+<http://nba-kg.org/alignment/Golden_State_Warriors> a nba:AlignmentRecord ;
+    nba:confidence 1e+00 ;
+    nba:dbpediaURI dbr:Golden_State_Warriors ;
+    nba:method "manual-verified" ;
+    nba:sourceEntity res:Golden_State_Warriors ;
+    nba:wikidataURI wd:Q157376 .
+
+<http://nba-kg.org/alignment/James_Harden> a nba:AlignmentRecord ;
+    nba:confidence 1e+00 ;
+    nba:dbpediaURI dbr:James_Harden ;
+    nba:method "manual-verified" ;
+    nba:sourceEntity res:James_Harden ;
+    nba:wikidataURI wd:Q351271 .
+
+<http://nba-kg.org/alignment/Jayson_Tatum> a nba:AlignmentRecord ;
+    nba:confidence 1e+00 ;
+    nba:dbpediaURI dbr:Jayson_Tatum ;
+    nba:method "manual-verified" ;
+    nba:sourceEntity res:Jayson_Tatum ;
+    nba:wikidataURI wd:Q30884051 .
+
+<http://nba-kg.org/alignment/Joel_Embiid> a nba:AlignmentRecord ;
+    nba:confidence 1e+00 ;
+    nba:dbpediaURI dbr:Joel_Embiid ;
+    nba:method "manual-verified" ;
+    nba:sourceEntity res:Joel_Embiid ;
+    nba:wikidataURI wd:Q19675880 .
+
+<http://nba-kg.org/alignment/Kawhi_Leonard> a nba:AlignmentRecord ;
+    nba:confidence 1e+00 ;
+    nba:dbpediaURI dbr:Kawhi_Leonard ;
+    nba:method "manual-verified" ;
+    nba:sourceEntity res:Kawhi_Leonard ;
+    nba:wikidataURI wd:Q707460 .
+
+<http://nba-kg.org/alignment/Kevin_Durant> a nba:AlignmentRecord ;
+    nba:confidence 1e+00 ;
+    nba:dbpediaURI dbr:Kevin_Durant ;
+    nba:method "manual-verified" ;
+    nba:sourceEntity res:Kevin_Durant ;
+    nba:wikidataURI wd:Q214303 .
+
+<http://nba-kg.org/alignment/Kobe_Bryant> a nba:AlignmentRecord ;
+    nba:confidence 1e+00 ;
+    nba:dbpediaURI dbr:Kobe_Bryant ;
+    nba:method "manual-verified" ;
+    nba:sourceEntity res:Kobe_Bryant ;
+    nba:wikidataURI wd:Q134183 .
+
+<http://nba-kg.org/alignment/Larry_Bird> a nba:AlignmentRecord ;
+    nba:confidence 1e+00 ;
+    nba:dbpediaURI dbr:Larry_Bird ;
+    nba:method "manual-verified" ;
+    nba:sourceEntity res:Larry_Bird ;
+    nba:wikidataURI wd:Q212993 .
+
+<http://nba-kg.org/alignment/LeBron_James> a nba:AlignmentRecord ;
+    nba:confidence 1e+00 ;
+    nba:dbpediaURI dbr:LeBron_James ;
+    nba:method "manual-verified" ;
+    nba:sourceEntity res:LeBron_James ;
+    nba:wikidataURI wd:Q36159 .
+
+<http://nba-kg.org/alignment/Los_Angeles_Lakers> a nba:AlignmentRecord ;
+    nba:confidence 1e+00 ;
+    nba:dbpediaURI dbr:Los_Angeles_Lakers ;
+    nba:method "manual-verified" ;
+    nba:sourceEntity res:Los_Angeles_Lakers ;
+    nba:wikidataURI wd:Q170323 .
+
+<http://nba-kg.org/alignment/Luka_Dončić> a nba:AlignmentRecord ;
+    nba:confidence 1e+00 ;
+    nba:dbpediaURI dbr:Luka_Dončić ;
+    nba:method "manual-verified" ;
+    nba:sourceEntity res:Luka_Dončić ;
+    nba:wikidataURI wd:Q38903117 .
+
+<http://nba-kg.org/alignment/Magic_Johnson> a nba:AlignmentRecord ;
+    nba:confidence 1e+00 ;
+    nba:dbpediaURI dbr:Magic_Johnson ;
+    nba:method "manual-verified" ;
+    nba:sourceEntity res:Magic_Johnson ;
+    nba:wikidataURI wd:Q213900 .
+
+<http://nba-kg.org/alignment/Miami_Heat> a nba:AlignmentRecord ;
+    nba:confidence 1e+00 ;
+    nba:dbpediaURI dbr:Miami_Heat ;
+    nba:method "manual-verified" ;
+    nba:sourceEntity res:Miami_Heat ;
+    nba:wikidataURI wd:Q162990 .
+
+<http://nba-kg.org/alignment/Michael_Jordan> a nba:AlignmentRecord ;
+    nba:confidence 1e+00 ;
+    nba:dbpediaURI dbr:Michael_Jordan ;
+    nba:method "manual-verified" ;
+    nba:sourceEntity res:Michael_Jordan ;
+    nba:wikidataURI wd:Q41421 .
+
+<http://nba-kg.org/alignment/Milwaukee_Bucks> a nba:AlignmentRecord ;
+    nba:confidence 1e+00 ;
+    nba:dbpediaURI dbr:Milwaukee_Bucks ;
+    nba:method "manual-verified" ;
+    nba:sourceEntity res:Milwaukee_Bucks ;
+    nba:wikidataURI wd:Q157395 .
+
+<http://nba-kg.org/alignment/NBA> a nba:AlignmentRecord ;
+    nba:confidence 1e+00 ;
+    nba:dbpediaURI dbr:National_Basketball_Association ;
+    nba:method "manual-verified" ;
+    nba:sourceEntity res:NBA ;
+    nba:wikidataURI wd:Q155223 .
+
+<http://nba-kg.org/alignment/Nikola_Jokić> a nba:AlignmentRecord ;
+    nba:confidence 1e+00 ;
+    nba:dbpediaURI dbr:Nikola_Jokić ;
+    nba:method "manual-verified" ;
+    nba:sourceEntity res:Nikola_Jokić ;
+    nba:wikidataURI wd:Q16826663 .
+
+<http://nba-kg.org/alignment/Philadelphia_76ers> a nba:AlignmentRecord ;
+    nba:confidence 1e+00 ;
+    nba:dbpediaURI dbr:Philadelphia_76ers ;
+    nba:method "manual-verified" ;
+    nba:sourceEntity res:Philadelphia_76ers ;
+    nba:wikidataURI wd:Q131227 .
+
+<http://nba-kg.org/alignment/Phoenix_Suns> a nba:AlignmentRecord ;
+    nba:confidence 1e+00 ;
+    nba:dbpediaURI dbr:Phoenix_Suns ;
+    nba:method "manual-verified" ;
+    nba:sourceEntity res:Phoenix_Suns ;
+    nba:wikidataURI wd:Q157391 .
+
+<http://nba-kg.org/alignment/San_Antonio_Spurs> a nba:AlignmentRecord ;
+    nba:confidence 1e+00 ;
+    nba:dbpediaURI dbr:San_Antonio_Spurs ;
+    nba:method "manual-verified" ;
+    nba:sourceEntity res:San_Antonio_Spurs ;
+    nba:wikidataURI wd:Q157373 .
+
+<http://nba-kg.org/alignment/Shaquille_ONeal> a nba:AlignmentRecord ;
+    nba:confidence 1e+00 ;
+    nba:dbpediaURI dbr:Shaquille_O%27Neal ;
+    nba:method "manual-verified" ;
+    nba:sourceEntity res:Shaquille_ONeal ;
+    nba:wikidataURI wd:Q169452 .
+
+<http://nba-kg.org/alignment/Stephen_Curry> a nba:AlignmentRecord ;
+    nba:confidence 1e+00 ;
+    nba:dbpediaURI dbr:Stephen_Curry ;
+    nba:method "manual-verified" ;
+    nba:sourceEntity res:Stephen_Curry ;
+    nba:wikidataURI wd:Q352230 .
+
+<http://nba-kg.org/alignment/Tim_Duncan> a nba:AlignmentRecord ;
+    nba:confidence 1e+00 ;
+    nba:dbpediaURI dbr:Tim_Duncan ;
+    nba:method "manual-verified" ;
+    nba:sourceEntity res:Tim_Duncan ;
+    nba:wikidataURI wd:Q193425 .
+
+<http://nba-kg.org/alignment/Victor_Wembanyama> a nba:AlignmentRecord ;
+    nba:confidence 1e+00 ;
+    nba:dbpediaURI dbr:Victor_Wembanyama ;
+    nba:method "manual-verified" ;
+    nba:sourceEntity res:Victor_Wembanyama ;
+    nba:wikidataURI wd:Q113183754 .
+
+nba:coachedBy owl:equivalentProperty dbo:headCoach,
+        wdt:P286 .
+
+nba:draftedIn owl:equivalentProperty wdt:P647 .
+
+nba:locatedIn owl:equivalentProperty dbo:location,
+        wdt:P131 .
+
+nba:nationality owl:equivalentProperty dbo:nationality,
+        wdt:P27 .
+
+nba:partOfLeague owl:equivalentProperty dbo:league,
+        wdt:P118 .
+
+nba:playsFor owl:equivalentProperty dbo:team,
+        wdt:P54 .
+
+nba:wonAward owl:equivalentProperty dbo:award,
+        wdt:P166 .
+
+nba:wonChampionship owl:equivalentProperty wdt:P1346 .
+
+res:Anthony_Davis owl:sameAs dbr:Anthony_Davis,
+        wd:Q1075660 .
+
+res:Boston_Celtics owl:sameAs dbr:Boston_Celtics,
+        wd:Q131172 .
+
+res:Brooklyn_Nets owl:sameAs dbr:Brooklyn_Nets,
+        wd:Q168131 .
+
+res:Chicago_Bulls owl:sameAs dbr:Chicago_Bulls,
+        wd:Q131209 .
+
+res:Dallas_Mavericks owl:sameAs dbr:Dallas_Mavericks,
+        wd:Q157403 .
+
+res:Damian_Lillard owl:sameAs dbr:Damian_Lillard,
+        wd:Q1093497 .
+
+res:Denver_Nuggets owl:sameAs dbr:Denver_Nuggets,
+        wd:Q157384 .
+
+res:Dirk_Nowitzki owl:sameAs dbr:Dirk_Nowitzki,
+        wd:Q183700 .
+
+res:Giannis_Antetokounmpo owl:sameAs dbr:Giannis_Antetokounmpo,
+        wd:Q1282327 .
+
+res:Golden_State_Warriors owl:sameAs dbr:Golden_State_Warriors,
+        wd:Q157376 .
+
+res:James_Harden owl:sameAs dbr:James_Harden,
+        wd:Q351271 .
+
+res:Jayson_Tatum owl:sameAs dbr:Jayson_Tatum,
+        wd:Q30884051 .
+
+res:Joel_Embiid owl:sameAs dbr:Joel_Embiid,
+        wd:Q19675880 .
+
+res:Kawhi_Leonard owl:sameAs dbr:Kawhi_Leonard,
+        wd:Q707460 .
+
+res:Kevin_Durant owl:sameAs dbr:Kevin_Durant,
+        wd:Q214303 .
+
+res:Kobe_Bryant owl:sameAs dbr:Kobe_Bryant,
+        wd:Q134183 .
+
+res:Larry_Bird owl:sameAs dbr:Larry_Bird,
+        wd:Q212993 .
+
+res:LeBron_James owl:sameAs dbr:LeBron_James,
+        wd:Q36159 .
+
+res:Los_Angeles_Lakers owl:sameAs dbr:Los_Angeles_Lakers,
+        wd:Q170323 .
+
+res:Luka_Dončić owl:sameAs dbr:Luka_Dončić,
+        wd:Q38903117 .
+
+res:Magic_Johnson owl:sameAs dbr:Magic_Johnson,
+        wd:Q213900 .
+
+res:Miami_Heat owl:sameAs dbr:Miami_Heat,
+        wd:Q162990 .
+
+res:Michael_Jordan owl:sameAs dbr:Michael_Jordan,
+        wd:Q41421 .
+
+res:Milwaukee_Bucks owl:sameAs dbr:Milwaukee_Bucks,
+        wd:Q157395 .
+
+res:NBA owl:sameAs dbr:National_Basketball_Association,
+        wd:Q155223 .
+
+res:Nikola_Jokić owl:sameAs dbr:Nikola_Jokić,
+        wd:Q16826663 .
+
+res:Philadelphia_76ers owl:sameAs dbr:Philadelphia_76ers,
+        wd:Q131227 .
+
+res:Phoenix_Suns owl:sameAs dbr:Phoenix_Suns,
+        wd:Q157391 .
+
+res:San_Antonio_Spurs owl:sameAs dbr:San_Antonio_Spurs,
+        wd:Q157373 .
+
+res:Shaquille_ONeal owl:sameAs dbr:Shaquille_O%27Neal,
+        wd:Q169452 .
+
+res:Stephen_Curry owl:sameAs dbr:Stephen_Curry,
+        wd:Q352230 .
+
+res:Tim_Duncan owl:sameAs dbr:Tim_Duncan,
+        wd:Q193425 .
+
+res:Victor_Wembanyama owl:sameAs dbr:Victor_Wembanyama,
+        wd:Q113183754 .
+

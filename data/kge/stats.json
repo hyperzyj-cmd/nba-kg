@@ -1,0 +1,8 @@
+{
+  "total": 25868,
+  "train": 20696,
+  "valid": 2586,
+  "test": 2586,
+  "entities": 8574,
+  "relations": 199
+}

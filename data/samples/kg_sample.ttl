@@ -1,0 +1,198 @@
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<http://nba-kg.org/resource/ANGT> rdfs:label "ANGT"@en .
+
+<http://nba-kg.org/resource/Ann_Iverson89> a <http://nba-kg.org/ontology#Player> .
+
+<http://nba-kg.org/resource/Arlington> a <http://nba-kg.org/ontology#City> .
+
+<http://nba-kg.org/resource/Ball_Arena> prov:wasDerivedFrom <https://en.wikipedia.org/wiki/2025%E2%80%9326_Denver_Nuggets_season> .
+
+<http://nba-kg.org/resource/Bam_Adebayo> prov:wasDerivedFrom <https://en.wikipedia.org/wiki/2023_NBA_Finals> .
+
+<http://nba-kg.org/resource/Billings> prov:wasDerivedFrom <https://en.wikipedia.org/wiki/Oklahoma_City_Thunder> .
+
+<http://nba-kg.org/resource/Calvin_Barnett34> rdfs:label "Calvin Barnett.[3][4"@en .
+
+<http://nba-kg.org/resource/Canada> prov:wasDerivedFrom <https://en.wikipedia.org/wiki/NBA> .
+
+<http://nba-kg.org/resource/Canterbury_School> a <http://nba-kg.org/ontology#Organization> .
+
+<http://nba-kg.org/resource/Cash_considerations> a <http://nba-kg.org/ontology#Player> .
+
+<http://nba-kg.org/resource/Charlotte_Hornets> prov:wasDerivedFrom <https://en.wikipedia.org/wiki/2025%E2%80%9326_Boston_Celtics_season> .
+
+<http://nba-kg.org/resource/Craig_Hodges> rdfs:label "Craig Hodges"@en .
+
+<http://nba-kg.org/resource/DJK_Würzburg> prov:wasDerivedFrom <https://en.wikipedia.org/wiki/Dirk_Nowitzki> .
+
+<http://nba-kg.org/resource/Danny_Green> prov:wasDerivedFrom <https://en.wikipedia.org/wiki/Toronto_Raptors> .
+
+<http://nba-kg.org/resource/Denver> prov:wasDerivedFrom <https://en.wikipedia.org/wiki/2025%E2%80%9326_Philadelphia_76ers_season> .
+
+<http://nba-kg.org/resource/Denver_Nuggets> rdfs:label "Denver Nuggets"@en .
+
+<http://nba-kg.org/resource/Derrick_Rose> rdfs:label "Derrick Rose"@en .
+
+<http://nba-kg.org/resource/Detroit> prov:wasDerivedFrom <https://en.wikipedia.org/wiki/2025%E2%80%9326_Miami_Heat_season> .
+
+<http://nba-kg.org/resource/Doc_Rivers> prov:wasDerivedFrom <https://en.wikipedia.org/wiki/Boston_Celtics> .
+
+<http://nba-kg.org/resource/Donte_DiVincenzo> a <http://nba-kg.org/ontology#Player> .
+
+<http://nba-kg.org/resource/Dwyane_Wade> rdfs:label "Dwyane Wade"@en ;
+    prov:wasDerivedFrom <https://en.wikipedia.org/wiki/Memphis_Grizzlies> .
+
+<http://nba-kg.org/resource/Eckardt> a <http://nba-kg.org/ontology#Player> .
+
+<http://nba-kg.org/resource/FIBA_World_Cup> a <http://nba-kg.org/ontology#Season> .
+
+<http://nba-kg.org/resource/George_McGinnis> rdfs:label "George McGinnis"@en .
+
+<http://nba-kg.org/resource/Golliver> a <http://nba-kg.org/ontology#Player> .
+
+<http://nba-kg.org/resource/Gordon_Gund> rdfs:label "Gordon Gund"@en .
+
+<http://nba-kg.org/resource/Iberia> rdfs:label "Iberia"@en .
+
+<http://nba-kg.org/resource/James_Posey> prov:wasDerivedFrom <https://en.wikipedia.org/wiki/Memphis_Grizzlies> .
+
+<http://nba-kg.org/resource/Jayhawks> prov:wasDerivedFrom <https://en.wikipedia.org/wiki/Paul_Pierce> .
+
+<http://nba-kg.org/resource/Jeremy_Nethon> rdfs:label "Jeremy Nethon"@en .
+
+<http://nba-kg.org/resource/Kenny_Smith> rdfs:label "Kenny Smith"@en .
+
+<http://nba-kg.org/resource/Kevin_Durant> prov:wasDerivedFrom <https://en.wikipedia.org/wiki/Small_forward> .
+
+<http://nba-kg.org/resource/Kevin_Whitted> rdfs:label "Kevin Whitted"@en .
+
+<http://nba-kg.org/resource/Kristaps_Por> prov:wasDerivedFrom <https://en.wikipedia.org/wiki/2025%E2%80%9326_Golden_State_Warriors_season> .
+
+<http://nba-kg.org/resource/Larry_Bird> prov:wasDerivedFrom <https://en.wikipedia.org/wiki/Boston_Celtics> .
+
+<http://nba-kg.org/resource/LeBron_James> prov:wasDerivedFrom <https://en.wikipedia.org/wiki/Kawhi_Leonard> .
+
+<http://nba-kg.org/resource/Linda> rdfs:label "Linda"@en .
+
+<http://nba-kg.org/resource/Long_Island8910> prov:wasDerivedFrom <https://en.wikipedia.org/wiki/Julius_Erving> .
+
+<http://nba-kg.org/resource/Los_Angeles> prov:wasDerivedFrom <https://en.wikipedia.org/wiki/Memphis_Grizzlies> .
+
+<http://nba-kg.org/resource/Louisiana_Tech_Bulldogs> prov:wasDerivedFrom <https://en.wikipedia.org/wiki/Karl_Malone> .
+
+<http://nba-kg.org/resource/Lowry> rdfs:label "Lowry"@en .
+
+<http://nba-kg.org/resource/MZT_Skopje> prov:wasDerivedFrom <https://en.wikipedia.org/wiki/Nikola_Joki%C4%87> .
+
+<http://nba-kg.org/resource/Marc_Lasry> rdfs:label "Marc Lasry"@en .
+
+<http://nba-kg.org/resource/March_Madness> rdfs:label "March Madness"@en .
+
+<http://nba-kg.org/resource/Marvin_Meyer> prov:wasDerivedFrom <https://en.wikipedia.org/wiki/Phoenix_Suns> .
+
+<http://nba-kg.org/resource/Mateen_Cleaves> rdfs:label "Mateen Cleaves"@en .
+
+<http://nba-kg.org/resource/Maurice_Podoloff_Trophy> a <http://nba-kg.org/ontology#Player> .
+
+<http://nba-kg.org/resource/McCloskey> prov:wasDerivedFrom <https://en.wikipedia.org/wiki/Minnesota_Timberwolves> .
+
+<http://nba-kg.org/resource/Mel_Daniels> a <http://nba-kg.org/ontology#Player> .
+
+<http://nba-kg.org/resource/Moreno_Valley> prov:wasDerivedFrom <https://en.wikipedia.org/wiki/Kawhi_Leonard> .
+
+<http://nba-kg.org/resource/NBA> prov:wasDerivedFrom <https://en.wikipedia.org/wiki/Luka_Don%C4%8Di%C4%87> .
+
+<http://nba-kg.org/resource/NBA_Finals> prov:wasDerivedFrom <https://en.wikipedia.org/wiki/2024_NBA_Finals>,
+        <https://en.wikipedia.org/wiki/Brooklyn_Nets> .
+
+<http://nba-kg.org/resource/Nathaniel_Jones13> rdfs:label "Nathaniel Jones;[13"@en .
+
+<http://nba-kg.org/resource/Nick_Nurse> a <http://nba-kg.org/ontology#Player> .
+
+<http://nba-kg.org/resource/Paycom_Center> prov:wasDerivedFrom <https://en.wikipedia.org/wiki/2025%E2%80%9326_Miami_Heat_season> .
+
+<http://nba-kg.org/resource/Peach_Jam> prov:wasDerivedFrom <https://en.wikipedia.org/wiki/Jayson_Tatum> .
+
+<http://nba-kg.org/resource/Peyton_Watson> rdfs:label "Peyton Watson"@en ;
+    prov:wasDerivedFrom <https://en.wikipedia.org/wiki/2025%E2%80%9326_Denver_Nuggets_season> .
+
+<http://nba-kg.org/resource/Philadelphia> prov:wasDerivedFrom <https://en.wikipedia.org/wiki/2025%E2%80%9326_Memphis_Grizzlies_season> .
+
+<http://nba-kg.org/resource/Porter> prov:wasDerivedFrom <https://en.wikipedia.org/wiki/2025%E2%80%9326_Milwaukee_Bucks_season> .
+
+<http://nba-kg.org/resource/Professional_Basketball_Franchise_Canada_Inc> a <http://nba-kg.org/ontology#Organization> .
+
+<http://nba-kg.org/resource/Ralph_Simpson> rdfs:label "Ralph Simpson"@en .
+
+<http://nba-kg.org/resource/Raptors> prov:wasDerivedFrom <https://en.wikipedia.org/wiki/Atlantic_Division_(NBA)> .
+
+<http://nba-kg.org/resource/Reheuser> rdfs:label "Reheuser"@en .
+
+<http://nba-kg.org/resource/Rob_Dillingham> prov:wasDerivedFrom <https://en.wikipedia.org/wiki/2025%E2%80%9326_Chicago_Bulls_season> .
+
+<http://nba-kg.org/resource/Russell_Westbrook> a <http://nba-kg.org/ontology#Player> .
+
+<http://nba-kg.org/resource/Shaun_Livingston> a <http://nba-kg.org/ontology#Player> .
+
+<http://nba-kg.org/resource/Sports_Center> a <http://nba-kg.org/ontology#Organization> ;
+    rdfs:label "Sports Center"@en .
+
+<http://nba-kg.org/resource/Steve_Kerr45> a <http://nba-kg.org/ontology#Player> .
+
+<http://nba-kg.org/resource/SuperSonics> prov:wasDerivedFrom <https://en.wikipedia.org/wiki/Pacific_Division_(NBA)> .
+
+<http://nba-kg.org/resource/The_Big_Podcast> prov:wasDerivedFrom <https://en.wikipedia.org/wiki/Shaquille_O%27Neal> .
+
+<http://nba-kg.org/resource/Tim_Hardaway> prov:wasDerivedFrom <https://en.wikipedia.org/wiki/Golden_State_Warriors> .
+
+<http://nba-kg.org/resource/Toronto> prov:wasDerivedFrom <https://en.wikipedia.org/wiki/2025%E2%80%9326_Brooklyn_Nets_season>,
+        <https://en.wikipedia.org/wiki/NBA> .
+
+<http://nba-kg.org/resource/Ujiri> prov:wasDerivedFrom <https://en.wikipedia.org/wiki/Toronto_Raptors> .
+
+<http://nba-kg.org/resource/WNBA> prov:wasDerivedFrom <https://en.wikipedia.org/wiki/Los_Angeles_Lakers> .
+
+<http://nba-kg.org/resource/West> a <http://nba-kg.org/ontology#Player> .
+
+<http://nba-kg.org/resource/Western_Division> prov:wasDerivedFrom <https://en.wikipedia.org/wiki/NBA_Finals> .
+
+<http://nba-kg.org/resource/World_Championship> prov:wasDerivedFrom <https://en.wikipedia.org/wiki/Paul_Pierce> .
+
+<http://nba-kg.org/resource/World_Cup> prov:wasDerivedFrom <https://en.wikipedia.org/wiki/Kevin_Durant> .
+
+<http://nba-kg.org/resource/the_Atlanta_Hawks> prov:wasDerivedFrom <https://en.wikipedia.org/wiki/2025%E2%80%9326_Brooklyn_Nets_season> .
+
+<http://nba-kg.org/resource/the_Baltimore_Bullets> rdfs:label "the Baltimore Bullets"@en .
+
+<http://nba-kg.org/resource/the_Boston_Celtics> prov:wasDerivedFrom <https://en.wikipedia.org/wiki/Devin_Booker> .
+
+<http://nba-kg.org/resource/the_Boston_Celtics9> rdfs:label "the Boston Celtics.[9"@en .
+
+<http://nba-kg.org/resource/the_Celtiberian_Wars> a <http://nba-kg.org/ontology#Season> .
+
+<http://nba-kg.org/resource/the_Central_Division> prov:wasDerivedFrom <https://en.wikipedia.org/wiki/List_of_NBA_champions> .
+
+<http://nba-kg.org/resource/the_D-League_All-Star_Game> prov:wasDerivedFrom <https://en.wikipedia.org/wiki/South_Bay_Lakers> .
+
+<http://nba-kg.org/resource/the_Finals_MVP> prov:wasDerivedFrom <https://en.wikipedia.org/wiki/Shai_Gilgeous-Alexander> .
+
+<http://nba-kg.org/resource/the_Los_Angeles_Ballers> a <http://nba-kg.org/ontology#Organization> .
+
+<http://nba-kg.org/resource/the_Los_Angeles_Lakers> prov:wasDerivedFrom <https://en.wikipedia.org/wiki/Dallas_Mavericks> .
+
+<http://nba-kg.org/resource/the_Memphis_Grizzlies> prov:wasDerivedFrom <https://en.wikipedia.org/wiki/Allen_Iverson> .
+
+<http://nba-kg.org/resource/the_Michael_Jordan_Trophy> prov:wasDerivedFrom <https://en.wikipedia.org/wiki/NBA_Most_Valuable_Player_Award> .
+
+<http://nba-kg.org/resource/the_Milwaukee_Bucks> prov:wasDerivedFrom <https://en.wikipedia.org/wiki/2023_NBA_Finals> .
+
+<http://nba-kg.org/resource/the_Minnesota_Pipers> a <http://nba-kg.org/ontology#Organization> .
+
+<http://nba-kg.org/resource/the_NBA_Finals> a <http://nba-kg.org/ontology#Season> .
+
+<http://nba-kg.org/resource/the_Ringsby_Rocket_Truck_Lines19> prov:wasDerivedFrom <https://en.wikipedia.org/wiki/Denver_Nuggets> .
+
+<http://nba-kg.org/resource/the_US_Virgin_Islandsc> a <http://nba-kg.org/ontology#City> .
+

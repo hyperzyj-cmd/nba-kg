@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.env
+venv/
+.venv/
+
+# Data (too large for GitHub)
+data/raw/*.jsonl
+data/kge/*.txt
+
+# Model outputs (large binary files)
+src/kge/results/**/*.pkl
+src/kge/results/**/*.pth
+src/kge/results/**/*.gz
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/

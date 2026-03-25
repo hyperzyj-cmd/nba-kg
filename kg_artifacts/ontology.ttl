@@ -1,0 +1,143 @@
+@prefix nba: <http://nba-kg.org/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+nba:arena a owl:DatatypeProperty ;
+    rdfs:comment "Name of home arena" ;
+    rdfs:domain nba:Team ;
+    rdfs:range xsd:string .
+
+nba:birthDate a owl:DatatypeProperty ;
+    rdfs:comment "Player's birth date" ;
+    rdfs:domain nba:Player ;
+    rdfs:range xsd:date .
+
+nba:birthPlace a owl:DatatypeProperty ;
+    rdfs:comment "Player's birth place" ;
+    rdfs:domain nba:Player ;
+    rdfs:range xsd:string .
+
+nba:coachedBy a owl:ObjectProperty ;
+    rdfs:comment "Team's head coach" ;
+    rdfs:domain nba:Team ;
+    rdfs:range nba:Coach .
+
+nba:draftPick a owl:DatatypeProperty ;
+    rdfs:comment "Overall pick number in the draft" ;
+    rdfs:domain nba:Player ;
+    rdfs:range xsd:integer .
+
+nba:draftYear a owl:DatatypeProperty ;
+    rdfs:comment "Year the player was drafted" ;
+    rdfs:domain nba:Player ;
+    rdfs:range xsd:integer .
+
+nba:draftedIn a owl:ObjectProperty ;
+    rdfs:comment "Player was selected in this draft" ;
+    rdfs:domain nba:Player ;
+    rdfs:range nba:Draft .
+
+nba:founded a owl:DatatypeProperty ;
+    rdfs:comment "Year the franchise was founded" ;
+    rdfs:domain nba:Team ;
+    rdfs:range xsd:integer .
+
+nba:height a owl:DatatypeProperty ;
+    rdfs:comment "Player height in metres" ;
+    rdfs:domain nba:Player ;
+    rdfs:range xsd:float .
+
+nba:jerseyNumber a owl:DatatypeProperty ;
+    rdfs:comment "Jersey number" ;
+    rdfs:domain nba:Player ;
+    rdfs:range xsd:integer .
+
+nba:locatedIn a owl:ObjectProperty ;
+    rdfs:comment "Team's home city" ;
+    rdfs:domain nba:Team ;
+    rdfs:range nba:City .
+
+nba:nationality a owl:ObjectProperty ;
+    rdfs:comment "Player's nationality" ;
+    rdfs:domain nba:Player ;
+    rdfs:range nba:Country .
+
+nba:partOfConference a owl:ObjectProperty ;
+    rdfs:comment "Team belongs to this conference" ;
+    rdfs:domain nba:Team ;
+    rdfs:range nba:Conference .
+
+nba:partOfDivision a owl:ObjectProperty ;
+    rdfs:comment "Team belongs to this division" ;
+    rdfs:domain nba:Team ;
+    rdfs:range nba:Division .
+
+nba:partOfLeague a owl:ObjectProperty ;
+    rdfs:comment "Team competes in this league" ;
+    rdfs:domain nba:Team ;
+    rdfs:range nba:League .
+
+nba:playsFor a owl:ObjectProperty ;
+    rdfs:comment "Player currently or formerly on a roster" ;
+    rdfs:domain nba:Player ;
+    rdfs:range nba:Team .
+
+nba:position a owl:DatatypeProperty ;
+    rdfs:comment "Playing position" ;
+    rdfs:domain nba:Player ;
+    rdfs:range xsd:string .
+
+nba:teammateOf a owl:ObjectProperty,
+        owl:SymmetricProperty ;
+    rdfs:comment "Two players on the same roster" ;
+    rdfs:domain nba:Player ;
+    rdfs:range nba:Player .
+
+nba:wonAward a owl:ObjectProperty ;
+    rdfs:comment "Player received an award" ;
+    rdfs:domain nba:Player ;
+    rdfs:range nba:Award .
+
+nba:wonChampionship a owl:ObjectProperty ;
+    rdfs:comment "Player won NBA championship in that season" ;
+    rdfs:domain nba:Player ;
+    rdfs:range nba:Season .
+
+nba:Award a owl:Class ;
+    rdfs:comment "An individual or team award" .
+
+nba:City a owl:Class ;
+    rdfs:comment "A city that hosts an NBA team" .
+
+nba:Coach a owl:Class ;
+    rdfs:comment "A head coach or assistant coach" ;
+    rdfs:subClassOf nba:Person .
+
+nba:Conference a owl:Class ;
+    rdfs:comment "An NBA conference (Eastern / Western)" .
+
+nba:Country a owl:Class ;
+    rdfs:comment "A country of origin or nationality" .
+
+nba:Division a owl:Class ;
+    rdfs:comment "An NBA division within a conference" .
+
+nba:Draft a owl:Class ;
+    rdfs:comment "An NBA draft event" .
+
+nba:League a owl:Class ;
+    rdfs:comment "A basketball league" .
+
+nba:Season a owl:Class ;
+    rdfs:comment "An NBA season or playoff series" .
+
+nba:Person a owl:Class .
+
+nba:Team a owl:Class ;
+    rdfs:comment "An NBA franchise" .
+
+nba:Player a owl:Class ;
+    rdfs:comment "An NBA player" ;
+    rdfs:subClassOf nba:Person .
+
