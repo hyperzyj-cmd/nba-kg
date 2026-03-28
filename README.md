@@ -159,9 +159,10 @@ The demo compares a **baseline** (LLM-only, no KB access) against the **RAG pipe
 | Cities        | 274    |
 | Seasons       | 195    |
 | Awards        | 132    |
-| **Total triples** | **11 722** |
+| **Initial KG triples** | **11 722** |
+| **Expanded KG triples** | **49 741** |
 
-KGE splits: **20 696** train / **2 586** valid / **2 586** test triples
+KGE splits: **21 617** train / **2 702** valid / **2 702** test triples (27 021 relational triples total, 8 890 entities, 202 relation types)
 
 ---
 
@@ -171,10 +172,10 @@ Four experiments: two models (TransE, DistMult) × two data sizes (small = 20%, 
 
 | Model    | Size  | Triples | MRR    | Hits@1 | Hits@3 | Hits@10 |
 |----------|-------|---------|--------|--------|--------|---------|
-| TransE   | small | 4 139   | 0.1085 | 0.0693 | 0.1099 | 0.1946  |
-| TransE   | full  | 20 696  | 0.0864 | 0.0551 | 0.0847 | 0.1499  |
-| DistMult | small | 4 139   | 0.1585 | 0.1154 | 0.1636 | 0.2452  |
-| DistMult | full  | 20 696  | **0.2549** | **0.2015** | **0.2737** | **0.3571** |
+| TransE   | small | 4 323   | 0.1156 | 0.0641 | 0.1225 | 0.2258  |
+| TransE   | full  | 21 617  | 0.0984 | 0.0372 | 0.1151 | 0.2151  |
+| DistMult | small | 4 323   | 0.1519 | 0.1062 | 0.1627 | 0.2399  |
+| DistMult | full  | 21 617  | **0.2562** | **0.2004** | **0.2640** | **0.3683** |
 
 DistMult (full) achieves the best performance across all metrics.
 
