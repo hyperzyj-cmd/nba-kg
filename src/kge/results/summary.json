@@ -2,41 +2,41 @@
   {
     "model": "TransE",
     "size": "small",
-    "triples": 4139,
-    "MRR": 0.1085,
-    "Hits@1": 0.0465,
-    "Hits@3": 0.1205,
-    "Hits@10": 0.2383,
-    "time_s": 27.5
+    "triples": 4323,
+    "MRR": 0.1156,
+    "Hits@1": 0.0641,
+    "Hits@3": 0.1225,
+    "Hits@10": 0.2258,
+    "time_s": 27.6
   },
   {
     "model": "TransE",
     "size": "full",
-    "triples": 20696,
-    "MRR": 0.0864,
-    "Hits@1": 0.0365,
-    "Hits@3": 0.0777,
-    "Hits@10": 0.1966,
-    "time_s": 65.4
+    "triples": 21617,
+    "MRR": 0.0984,
+    "Hits@1": 0.0372,
+    "Hits@3": 0.1151,
+    "Hits@10": 0.2151,
+    "time_s": 64.9
   },
   {
     "model": "DistMult",
     "size": "small",
-    "triples": 4139,
-    "MRR": 0.1585,
-    "Hits@1": 0.111,
-    "Hits@3": 0.1796,
-    "Hits@10": 0.2352,
-    "time_s": 29.3
+    "triples": 4323,
+    "MRR": 0.1519,
+    "Hits@1": 0.1062,
+    "Hits@3": 0.1627,
+    "Hits@10": 0.2399,
+    "time_s": 27.3
   },
   {
     "model": "DistMult",
     "size": "full",
-    "triples": 20696,
-    "MRR": 0.2549,
-    "Hits@1": 0.1992,
-    "Hits@3": 0.2769,
-    "Hits@10": 0.3577,
-    "time_s": 67.4
+    "triples": 21617,
+    "MRR": 0.2562,
+    "Hits@1": 0.2004,
+    "Hits@3": 0.264,
+    "Hits@10": 0.3683,
+    "time_s": 66.5
   }
 ]

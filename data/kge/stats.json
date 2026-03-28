@@ -1,8 +1,8 @@
 {
-  "total": 25868,
-  "train": 20696,
-  "valid": 2586,
-  "test": 2586,
-  "entities": 8574,
-  "relations": 199
+  "total": 27021,
+  "train": 21617,
+  "valid": 2702,
+  "test": 2702,
+  "entities": 8890,
+  "relations": 202
 }

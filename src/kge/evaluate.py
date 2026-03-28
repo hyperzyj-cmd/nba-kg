@@ -4,9 +4,13 @@ Evaluate trained KGE models (TransE, DistMult) on the NBA knowledge graph.
 - Generates t-SNE visualisations with entities coloured by ontology class.
 - Shows nearest neighbours for selected NBA entities.
 """
+import io
+import sys
 import json
 import numpy as np
 import matplotlib
+
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
@@ -187,7 +191,12 @@ def tsne_plot(emb: np.ndarray, entity_to_id: dict,
               entity_classes: dict, title: str, out_path: Path) -> None:
     n   = min(2000, len(emb))
     rng = np.random.default_rng(42)
-    idx = rng.choice(len(emb), size=n, replace=False)
+
+    # Always include HIGHLIGHT entities so they appear in the plot
+    pinned = [entity_to_id[name] for name in HIGHLIGHT if name in entity_to_id]
+    remaining = [i for i in range(len(emb)) if i not in pinned]
+    fill = rng.choice(remaining, size=max(0, n - len(pinned)), replace=False).tolist()
+    idx = np.array(pinned + fill)
     sub_emb = emb[idx]
 
     tsne = TSNE(n_components=2, perplexity=30, random_state=42,
@@ -220,13 +229,24 @@ def tsne_plot(emb: np.ndarray, entity_to_id: dict,
                    color="black", edgecolors="white", linewidths=0.8)
         texts.append(ax.text(xy[pos, 0], xy[pos, 1],
                               name.replace("_", " "),
-                              fontsize=7.5, fontweight="bold", color="black"))
+                              fontsize=7.5, fontweight="bold", color="black",
+                              clip_on=True))
 
-    # Automatically reposition labels to avoid overlap
+    # Reposition labels to reduce overlap, but keep them inside the axes
     if texts:
+        x_min, x_max = ax.get_xlim()
+        y_min, y_max = ax.get_ylim()
         adjust_text(texts, ax=ax,
                     arrowprops=dict(arrowstyle="-", color="gray", lw=0.6),
-                    expand=(1.4, 1.6))
+                    expand=(1.2, 1.3),
+                    force_text=(0.3, 0.3))
+        # Clamp any labels that drifted outside the axes
+        for t in texts:
+            tx, ty = t.get_position()
+            t.set_position((
+                max(x_min, min(x_max, tx)),
+                max(y_min, min(y_max, ty)),
+            ))
 
     # Legend
     present_classes = {entity_classes.get(id_to_entity.get(i, ""), "Other")
@@ -257,7 +277,7 @@ def main():
         ("DistMult", "full"),
     ]
 
-    TRIPLES_COUNT = {"small": 4139, "full": 20696}
+    TRIPLES_COUNT = {"small": 4323, "full": 21617}
 
     # Load ontology class mapping from the local KB
     kg_path = ROOT / "kg_artifacts" / "initial_kg.ttl"

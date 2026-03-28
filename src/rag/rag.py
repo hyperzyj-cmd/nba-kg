@@ -16,7 +16,7 @@ from rdflib import Graph, Namespace, RDF, RDFS
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
 
 ROOT        = Path(__file__).parent.parent.parent
-INITIAL_KG  = ROOT / "kg_artifacts" / "initial_kg.ttl"
+INITIAL_KG  = ROOT / "kg_artifacts" / "expanded.nt"
 OLLAMA_URL  = "http://localhost:11434/api/generate"
 MODEL       = "qwen2.5:3b"
 MAX_REPAIR  = 3
@@ -113,7 +113,21 @@ Example 3 - check entity type:
   PREFIX nba: <http://nba-kg.org/ontology#>
   PREFIX res: <http://nba-kg.org/resource/>
   PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-  SELECT ?type WHERE { res:LeBron_James rdf:type ?type . }"""
+  SELECT ?type WHERE { res:LeBron_James rdf:type ?type . }
+
+Example 4 - find which team a player plays for:
+  PREFIX nba:  <http://nba-kg.org/ontology#>
+  PREFIX res:  <http://nba-kg.org/resource/>
+  PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+  SELECT ?teamLabel WHERE {
+    res:LeBron_James nba:playsFor ?team .
+    ?team rdfs:label ?teamLabel .
+  }
+
+Example 5 - find nationality of a player:
+  PREFIX nba: <http://nba-kg.org/ontology#>
+  PREFIX res: <http://nba-kg.org/resource/>
+  SELECT ?nat WHERE { res:Victor_Wembanyama nba:nationality ?nat . }"""
 
     return f"""{prefix_block}
 
@@ -131,12 +145,12 @@ Example 3 - check entity type:
 # ── Demo questions ─────────────────────────────────────────────────────────────
 
 DEMO_QUESTIONS = [
-    "How many NBA players are recorded in this knowledge graph?",
-    "How many NBA teams are recorded in this knowledge graph?",
-    "How many cities are in the knowledge graph?",
-    "What awards are tracked in the knowledge base?",
-    "What type of entity is LeBron James in the knowledge graph?",
-    "How many NBA seasons are recorded in this knowledge graph?",
+    "Which team does Damian Lillard play for?",
+    "What nationality is Victor Wembanyama?",
+    "What nationality is Giannis Antetokounmpo?",
+    "Which team does LeBron James play for?",
+    "Is the Boston Celtics a team or a player?",
+    "Which team does Jayson Tatum play for?",
 ]
 
 
@@ -144,7 +158,7 @@ DEMO_QUESTIONS = [
 
 def load_graph() -> Graph:
     g = Graph()
-    g.parse(str(INITIAL_KG), format="turtle")
+    g.parse(str(INITIAL_KG), format="nt")
     print(f"[KB] Loaded {len(g)} triples from {INITIAL_KG.name}")
     return g
 

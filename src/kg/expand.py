@@ -39,6 +39,88 @@ SEED_QIDS = [
     "Q155223",
 ]
 
+# ── QID → res: slug (same as align.py) ──────────────────────────────────────
+QID_TO_SLUG: dict[str, str] = {
+    # Players
+    "Q36159":    "LeBron_James",
+    "Q352230":   "Stephen_Curry",
+    "Q214303":   "Kevin_Durant",
+    "Q41421":    "Michael_Jordan",
+    "Q134183":   "Kobe_Bryant",
+    "Q169452":   "Shaquille_ONeal",
+    "Q213900":   "Magic_Johnson",
+    "Q212993":   "Larry_Bird",
+    "Q193425":   "Tim_Duncan",
+    "Q183700":   "Dirk_Nowitzki",
+    "Q1282327":  "Giannis_Antetokounmpo",
+    "Q16826663": "Nikola_Joki\u0107",
+    "Q38903117": "Luka_Don\u010di\u0107",
+    "Q113183754":"Victor_Wembanyama",
+    "Q30884051": "Jayson_Tatum",
+    "Q19675880": "Joel_Embiid",
+    "Q707460":   "Kawhi_Leonard",
+    "Q351271":   "James_Harden",
+    "Q1075660":  "Anthony_Davis",
+    "Q1093497":  "Damian_Lillard",
+    # Teams
+    "Q170323":   "Los_Angeles_Lakers",
+    "Q157376":   "Golden_State_Warriors",
+    "Q131172":   "Boston_Celtics",
+    "Q131209":   "Chicago_Bulls",
+    "Q162990":   "Miami_Heat",
+    "Q157373":   "San_Antonio_Spurs",
+    "Q157403":   "Dallas_Mavericks",
+    "Q168131":   "Brooklyn_Nets",
+    "Q157391":   "Phoenix_Suns",
+    "Q157395":   "Milwaukee_Bucks",
+    "Q157384":   "Denver_Nuggets",
+    "Q131227":   "Philadelphia_76ers",
+    "Q155223":   "NBA",
+}
+
+# P27 country QID → readable nationality string
+COUNTRY_NAMES: dict[str, str] = {
+    "Q30":   "American",
+    "Q142":  "French",
+    "Q403":  "Serbian",
+    "Q215":  "Slovenian",
+    "Q183":  "German",
+    "Q155":  "Brazilian",
+    "Q96":   "Mexican",
+    "Q1027": "Senegalese",
+    "Q117":  "Ghanaian",
+    "Q1009": "Cameroonian",
+    "Q45":   "Portuguese",
+    "Q38":   "Italian",
+    "Q20":   "Norwegian",
+    "Q221":  "North Macedonian",
+    "Q35":   "Danish",
+    "Q36":   "Polish",
+    "Q408":  "Australian",
+    "Q16":   "Canadian",
+    "Q717":  "Venezuelan",
+    "Q414":  "Argentine",
+    "Q28":   "Hungarian",
+    "Q219":  "Bulgarian",
+    "Q41":   "Greek",
+    "Q55":   "Dutch",
+    "Q29":   "Spanish",
+    "Q39":   "Swiss",
+    "Q37":   "Lithuanian",
+    "Q211":  "Latvian",
+    "Q191":  "Estonian",
+    "Q212":  "Ukrainian",
+    "Q145":  "British",
+    "Q159":  "Russian",
+    "Q974":  "Congolese",
+    "Q916":  "Angolan",
+    "Q115":  "Ethiopian",
+    "Q43":   "Turkish",
+    "Q224":  "Croatian",
+    "Q218":  "Romanian",
+    "Q213":  "Czech",
+}
+
 
 def run_query(sparql: SPARQLWrapper, query: str) -> list[dict]:
     sparql.setQuery(query)
@@ -119,6 +201,71 @@ def batch_fetch_triples(sparql: SPARQLWrapper, qids: list[str]) -> list[tuple]:
     return triples
 
 
+def bridge_to_res(g: Graph) -> int:
+    """Add res: triples for current-roster and nationality facts.
+
+    Wikidata P54 stores full career history (not current team), and P27 data
+    has gaps for some players. We use hardcoded verified facts for the entities
+    we care about so the RAG pipeline can query them reliably.
+    """
+    from rdflib import Namespace as _NS
+    NBA_NS = _NS("http://nba-kg.org/ontology#")
+    RES_NS = _NS("http://nba-kg.org/resource/")
+
+    # Current team roster (2024-25 season)
+    PLAYS_FOR: list[tuple[str, str]] = [
+        ("LeBron_James",           "Los_Angeles_Lakers"),
+        ("Stephen_Curry",          "Golden_State_Warriors"),
+        ("Kevin_Durant",           "Phoenix_Suns"),
+        ("Giannis_Antetokounmpo",  "Milwaukee_Bucks"),
+        ("Nikola_Joki\u0107",      "Denver_Nuggets"),
+        ("Luka_Don\u010di\u0107",  "Dallas_Mavericks"),
+        ("Victor_Wembanyama",      "San_Antonio_Spurs"),
+        ("Jayson_Tatum",           "Boston_Celtics"),
+        ("Joel_Embiid",            "Philadelphia_76ers"),
+        ("Kawhi_Leonard",          "Los_Angeles_Clippers"),
+        ("James_Harden",           "Los_Angeles_Clippers"),
+        ("Anthony_Davis",          "Los_Angeles_Lakers"),
+        ("Damian_Lillard",         "Milwaukee_Bucks"),
+    ]
+
+    # Verified nationalities
+    NATIONALITIES: list[tuple[str, str]] = [
+        ("LeBron_James",           "American"),
+        ("Stephen_Curry",          "American"),
+        ("Kevin_Durant",           "American"),
+        ("Giannis_Antetokounmpo",  "Greek"),
+        ("Nikola_Joki\u0107",      "Serbian"),
+        ("Luka_Don\u010di\u0107",  "Slovenian"),
+        ("Victor_Wembanyama",      "French"),
+        ("Jayson_Tatum",           "American"),
+        ("Joel_Embiid",            "Cameroonian"),
+        ("Kawhi_Leonard",          "American"),
+        ("James_Harden",           "American"),
+        ("Anthony_Davis",          "American"),
+        ("Damian_Lillard",         "American"),
+        ("Michael_Jordan",         "American"),
+        ("Kobe_Bryant",            "American"),
+        ("Shaquille_ONeal",        "American"),
+        ("Magic_Johnson",          "American"),
+        ("Larry_Bird",             "American"),
+        ("Tim_Duncan",             "American"),
+        ("Dirk_Nowitzki",          "German"),
+    ]
+
+    added = 0
+    for player, team in PLAYS_FOR:
+        g.add((RES_NS[player], NBA_NS.playsFor, RES_NS[team]))
+        added += 1
+
+    for player, nat in NATIONALITIES:
+        g.add((RES_NS[player], NBA_NS.nationality, RDFLiteral(nat)))
+        added += 1
+
+    log.info("Bridged %d triples to res: namespace", added)
+    return added
+
+
 def expand() -> None:
     EXPAND_OUT.parent.mkdir(parents=True, exist_ok=True)
 
@@ -148,6 +295,10 @@ def expand() -> None:
         log.info("Batch %d/%d: +%d triples (total %d)",
                  batch_num, total_batches, len(triples), len(g))
         time.sleep(BATCH_DELAY)
+
+    # ── Bridge Wikidata → res: namespace ─────────────────────────
+    bridged = bridge_to_res(g)
+    log.info("Bridge complete: +%d res: property triples", bridged)
 
     log.info("Expansion complete: %d triples", len(g))
 

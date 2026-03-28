@@ -1,0 +1,434 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{parskip}
+\usepackage{enumitem}
+\usepackage{placeins}
+
+\geometry{margin=2cm}
+
+\setlength{\parskip}{4pt}
+\setlist{itemsep=1pt, topsep=3pt}
+
+\graphicspath{{img/}}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{sparqlstyle}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{blue}\bfseries,
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    keepspaces=true,
+    showspaces=false,
+    showstringspaces=false,
+    frame=single,
+    rulecolor=\color{gray}
+}
+\lstset{style=sparqlstyle}
+
+\captionsetup{font=small, skip=4pt}
+\titlespacing*{\section}{0pt}{10pt}{4pt}
+\titlespacing*{\subsection}{0pt}{6pt}{2pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{NBA Knowledge Graph -- Web Data Mining \& Semantics}
+\lhead{A4 -- DIA3}
+\rfoot{Page \thepage}
+
+\begin{document}
+
+%------------------------
+% TITLE PAGE
+%------------------------
+\begin{titlepage}
+    \centering
+    \vspace*{2cm}
+    {\Huge\bfseries NBA Knowledge Graph Pipeline\par}
+    \vspace{0.5cm}
+    {\Large Web Data Mining and Semantics -- Final Project\par}
+    \vspace{0.3cm}
+    {\large DIA -- A4\par}
+    \vspace{1.5cm}
+    {\large\bfseries From Web Crawling to RAG-based Question Answering\par}
+    \vspace{2cm}
+    {\large
+        Yijia ZENG\\[0.3cm]
+        Thomas JIN\\
+    \par}
+    \vspace{2cm}
+    {\large \today\par}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+%==============================================================
+\section{Data Acquisition and Information Extraction}
+%==============================================================
+
+\subsection{Domain and Seed URLs}
+
+We chose NBA basketball as the domain. It offers a lot of structured information online, including players, teams, awards, and seasons, with clear entity types and rich cross-source connections.
+
+The crawler was seeded with the following representative URLs:
+\begin{itemize}
+    \item \texttt{https://en.wikipedia.org/wiki/LeBron\_James}
+    \item \texttt{https://en.wikipedia.org/wiki/NBA\_Most\_Valuable\_Player\_Award}
+    \item \texttt{https://www.basketball-reference.com/players/}
+    \item \texttt{https://www.nba.com/news/}
+    \item \texttt{https://www.espn.com/nba/}
+\end{itemize}
+From these seeds, the crawler follows internal links to collect additional NBA-related pages.
+
+\subsection{Crawler Design and Ethics}
+
+The crawler uses \texttt{requests} for HTTP and \texttt{trafilatura} for clean text extraction. It follows links up to a defined depth from each seed and stores output as \texttt{data/raw/crawler\_output.jsonl}. Ethical constraints applied: at least 1 second delay between requests, no login or paywall bypass, crawl scope limited to NBA content, no personal data collected, and all data used for academic purposes only.
+
+\subsection{Cleaning Pipeline}
+
+The cleaning step (\texttt{src/crawl/clean.py}) removes duplicate pages by URL and content hash, filters out texts under 100 characters, and strips residual HTML tags. Output is saved as \texttt{data/raw/crawler\_cleaned.jsonl}.
+
+\subsection{Named Entity Recognition}
+
+We use spaCy with the \texttt{en\_core\_web\_trf} (transformer-based) model for better accuracy on sports proper nouns. Five entity types are extracted and mapped to ontology classes:
+
+\begin{center}\small
+\begin{tabular}{|l|l|}
+\hline
+\textbf{spaCy type} & \textbf{Ontology class} \\
+\hline
+\texttt{PERSON}       & \texttt{nba:Player} \\
+\texttt{ORG}          & \texttt{nba:Team} (if NBA team name) or \texttt{nba:Organization} \\
+\texttt{GPE}          & \texttt{nba:City} \\
+\texttt{EVENT}        & \texttt{nba:Season} \\
+\texttt{WORK\_OF\_ART} & \texttt{nba:Award} \\
+\hline
+\end{tabular}
+\end{center}
+
+Some example extractions:
+\begin{itemize}
+    \item \textit{``LeBron James led the Lakers to victory.''} $\rightarrow$ \texttt{LeBron James} (\texttt{PERSON}), \texttt{Lakers} (\texttt{ORG})
+    \item \textit{``The 2023 NBA Finals were held in Denver.''} $\rightarrow$ \texttt{2023 NBA Finals} (\texttt{EVENT}), \texttt{Denver} (\texttt{GPE})
+    \item \textit{``Stephen Curry won the All-NBA First Team award.''} $\rightarrow$ \texttt{Stephen Curry} (\texttt{PERSON}), \texttt{All-NBA First Team} (\texttt{WORK\_OF\_ART})
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{ner.png}
+    \caption{NER extraction output showing recognized entities and their types}
+\end{figure}
+
+\subsection{Ambiguity Cases}
+
+\begin{enumerate}
+    \item \textbf{``Magic''}: can refer to Magic Johnson (\texttt{PERSON}) or the Orlando Magic (\texttt{ORG}). We partially mitigate this by checking whether the surface form matches a known team name list before assigning the type.
+    \item \textbf{``Jordan''}: can mean Michael Jordan (player), the Jordan brand (\texttt{ORG}), or the country Jordan (\texttt{GPE}). Without co-reference resolution this is hard to fix automatically.
+    \item \textbf{``Bulls''}: usually the Chicago Bulls, but in other contexts it is not an NBA entity. This is filtered by checking against a list of known NBA team names.
+\end{enumerate}
+
+%==============================================================
+\section{Knowledge Base Construction and Alignment}
+%==============================================================
+
+\subsection{RDF Modeling Choices}
+
+We designed a custom OWL ontology at \texttt{http://nba-kg.org/ontology\#} with six main classes: \texttt{nba:Player}, \texttt{nba:Team}, \texttt{nba:City}, \texttt{nba:Season}, \texttt{nba:Award}, and \texttt{nba:Organization}. Object properties include \texttt{nba:playsFor}, \texttt{nba:wonAward}, \texttt{nba:locatedIn}, \texttt{nba:partOfLeague}, and \texttt{nba:coachedBy}. Entity URIs are in the \texttt{http://nba-kg.org/resource/} namespace, with \texttt{rdfs:label} for surface forms and \texttt{prov:wasDerivedFrom} for provenance.
+
+\subsection{Entity Linking and Alignment}
+
+We manually created 33 alignment records in \texttt{alignment.ttl}, selecting entities that appear frequently in the crawled data and have unambiguous Wikidata and DBpedia counterparts. Each record links a local resource to \texttt{wd:} and \texttt{dbr:} via \texttt{owl:sameAs} with confidence 1.0 (manually verified).
+
+\begin{table}[H]
+\centering\small
+\begin{tabular}{|l|l|l|l|c|}
+\hline
+\textbf{Local resource} & \textbf{Wikidata} & \textbf{DBpedia} & \textbf{Match basis} & \textbf{Conf.} \\
+\hline
+\texttt{res:LeBron\_James}          & \texttt{wd:Q36159}     & \texttt{dbr:LeBron\_James}          & name + Wikipedia & 1.0 \\
+\texttt{res:Golden\_State\_Warriors} & \texttt{wd:Q157376}    & \texttt{dbr:Golden\_State\_Warriors} & name + Wikipedia & 1.0 \\
+\texttt{res:Nikola\_Joki\'{c}}       & \texttt{wd:Q16826663}  & \texttt{dbr:Nikola\_Joki\'{c}}       & name + Wikipedia & 1.0 \\
+\texttt{res:Luka\_Don\v{c}i\'{c}}   & \texttt{wd:Q38903117}  & \texttt{dbr:Luka\_Don\v{c}i\'{c}}   & name + Wikipedia & 1.0 \\
+\hline
+\end{tabular}
+\caption{Sample alignment records}
+\end{table}
+
+We also aligned predicates: \texttt{nba:playsFor} $\equiv$ \texttt{wdt:P54} $\equiv$ \texttt{dbo:team}, \texttt{nba:wonAward} $\equiv$ \texttt{wdt:P166} $\equiv$ \texttt{dbo:award}, \texttt{nba:locatedIn} $\equiv$ \texttt{wdt:P131} $\equiv$ \texttt{dbo:location}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{alignment.png}
+    \caption{Alignment output showing \texttt{owl:sameAs} links to Wikidata and DBpedia}
+\end{figure}
+
+\subsection{SPARQL Expansion Strategy}
+
+We expand the KB by querying the Wikidata SPARQL endpoint in bulk: first discovering all relevant QIDs (NBA players, teams, awards) via three discovery queries, then fetching \texttt{wdt:} properties in batches of 30 QIDs per request. Over 640 entities were expanded, bringing the final triple count to 49,741.
+
+One practical issue: Wikidata's \texttt{P54} stores full career history rather than current team. Bridging these directly would give outdated \texttt{nba:playsFor} facts. We addressed this with a \texttt{bridge\_to\_res()} function using verified 2024--25 roster data for 13 key players and confirmed nationality facts for 20 entities, yielding 33 reliable \texttt{res:} property triples for RAG queries.
+
+\subsection{Final KB Statistics}
+
+\begin{table}[H]
+\centering\small
+\begin{tabular}{|l|r|l|}
+\hline
+\textbf{Stage} & \textbf{Triples} & \textbf{Description} \\
+\hline
+Initial KG (\texttt{initial\_kg.ttl})  & 11{,}722  & Type + label + provenance triples from NER \\
+Expanded KG (\texttt{expanded.nt})     & 49{,}741  & After Wikidata SPARQL expansion and res: bridging \\
+KGE training set (\texttt{train.tsv})  & 21{,}617  & Relational triples only (see Section~4) \\
+\hline
+\end{tabular}
+\caption{Triple counts at each pipeline stage}
+\label{tab:kbstats}
+\end{table}
+
+\begin{table}[H]
+\centering\small
+\begin{tabular}{|l|r|l|r|}
+\hline
+\textbf{Entity Type} & \textbf{Count} & \textbf{Entity Type} & \textbf{Count} \\
+\hline
+Players  & 1{,}304 & Seasons & 195 \\
+Teams    & 76      & Awards  & 132 \\
+Cities   & 274     & Total entities (expanded) & 8{,}986 \\
+\hline
+\end{tabular}
+\caption{Entity counts in the KB}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.72\textwidth]{kb_stats.png}
+    \caption{KB statistics output from \texttt{src/kg/stats.py}}
+\end{figure}
+
+%==============================================================
+\section{Reasoning with SWRL}
+%==============================================================
+
+\subsection{SWRL Rules on family.owl}
+
+We validated our reasoning setup on a \texttt{family.owl} ontology first. Rules are executed via forward-chaining pattern matching over the RDF graph using \texttt{rdflib} and \texttt{owlready2}.
+
+\begin{lstlisting}[language=]
+Rule 1: Male(?x) ^ isFatherOf(?x,?y) ^ isParentOf(?y,?z) -> Grandfather(?x)
+Rule 2: Male(?x) ^ isBrotherOf(?x,?p) ^ isParentOf(?p,?c) -> Uncle(?x)
+Rule 3: Person(?x) ^ age(?x,?a) ^ swrlb:greaterThan(?a,60) -> OldPerson(?x)
+\end{lstlisting}
+
+\subsection{SWRL Rules on the NBA Knowledge Graph}
+
+\begin{lstlisting}[language=]
+Rule 1: Player(?x) ^ Player(?y) ^ Team(?t) ^ playsFor(?x,?t)
+        ^ playsFor(?y,?t) ^ differentFrom(?x,?y) -> teammateOf(?x,?y)
+Rule 2: Player(?x) ^ wonMVP(?x, true) -> MVPWinner(?x)
+\end{lstlisting}
+
+Rule 1 infers \texttt{nba:teammateOf} for any two distinct players on the same team. Rule 2 infers \texttt{nba:MVPWinner} membership. Applied over 15 players across 6 teams, we inferred 13 teammate pairs and 7 MVP winners.
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{swrl_family.png}
+        \caption{family.owl: grandfathers, uncles, old persons}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{swrl_nba.png}
+        \caption{NBA KB: teammate pairs and MVP winners}
+    \end{subfigure}
+    \caption{SWRL reasoning output for both ontologies}
+\end{figure}
+
+%==============================================================
+\section{Knowledge Graph Embeddings}
+%==============================================================
+
+\subsection{Data Preparation and Splits}
+
+Many triples in the expanded KB are metadata (\texttt{rdf:type}, \texttt{rdfs:label}, \texttt{owl:sameAs}, \texttt{prov:wasDerivedFrom}) with no relational signal for link prediction. We extract only relational triples and convert them to TSV with integer-mapped entity and relation IDs.
+
+This yields \textbf{27,021 usable triples} across 8,890 entities and 202 relation types, split into \textbf{21,617 train} / \textbf{2,702 valid} / \textbf{2,702 test}. We compare a \textbf{small} subset (20\%, 4,323 triples) against the \textbf{full} set to analyse the effect of data volume.
+
+\subsection{Models and Training}
+
+Two models trained with PyKEEN (100 epochs, embedding dimension 64):
+\begin{itemize}
+    \item \textbf{TransE}: translation-based, score $= -\|h + r - t\|$. Works well for hierarchical and asymmetric relations.
+    \item \textbf{DistMult}: bilinear, score $= h \cdot r \cdot t$ (diagonal relation matrix). Better suited to symmetric relations.
+\end{itemize}
+
+\subsection{Evaluation Metrics}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{kge_metrics.png}
+    \caption{Evaluation metrics output from \texttt{src/kge/evaluate.py}}
+\end{figure}
+
+DistMult (full) achieves the best results (MRR = 0.2562, Hits@10 = 0.3683). TransE degrades from small to full (MRR: 0.1156 $\to$ 0.0984), while DistMult gains +0.104 MRR with more data. The KB contains many symmetric co-occurrence relations, which suits DistMult's diagonal factorisation. Overall metrics are moderate because the KB is relation-sparse: NER extracts entity mentions but no relations between them.
+
+\subsection{t-SNE Visualizations and Nearest Neighbours}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{tsne_transe_small.png}
+        \caption{TransE (small)}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{tsne_distmult_small.png}
+        \caption{DistMult (small)}
+    \end{subfigure}
+    \\[4pt]
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{tsne_transe_full.png}
+        \caption{TransE (full)}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{tsne_distmult_full.png}
+        \caption{DistMult (full)}
+    \end{subfigure}
+    \caption{t-SNE visualizations for all four models, coloured by ontology class (Player=red, Team=blue, City=purple, Season=green, Award=orange)}
+    \label{fig:tsne}
+\end{figure}
+
+DistMult (full) shows the clearest class separation, with the player cluster (red) visibly distinct from seasons (green) and cities (purple). TransE produces a denser, less structured layout at both scales, consistent with its lower MRR. Highly connected entities like Los Angeles Lakers tend to appear as outliers, likely because their large number of Wikidata relations shifts them away from the main team cluster.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.72\textwidth]{kge_neighbors.png}
+    \caption{Nearest neighbours for selected entities in the DistMult (full) embedding space}
+\end{figure}
+
+In the DistMult (full) nearest-neighbour results, players cluster with players (LeBron James nearest to Dwyane Wade at cosine 0.93, Kevin Durant nearest to Wilt Chamberlain at 0.93) and teams with teams (Denver Nuggets nearest to Memphis Grizzlies at 0.88), confirming that the model learned meaningful type-level structure.
+
+%==============================================================
+\section{RAG over RDF/SPARQL}
+%==============================================================
+
+\subsection{Schema Summary and Prompt Design}
+
+A dynamic schema summary is built at runtime from the loaded RDF graph, including all namespace PREFIX declarations, up to 40 distinct predicates, up to 20 distinct classes, 10 sample triples, and SPARQL examples. This schema is passed to the LLM in every prompt. Using abbreviated URIs (\texttt{prefix:local}) keeps the context short enough for a small model.
+
+We use \textbf{qwen2.5:3b} served locally via Ollama, which generates more reliable SPARQL with fewer missing prefix declarations compared to smaller alternatives.
+
+\subsection{Self-Repair and Prefix Injection}
+
+If SPARQL execution fails, the system retries up to 3 times, passing the error back to the model. Before each attempt, an auto-prefix injection step scans the query for used prefixes and injects any that are missing. This resolves a common failure mode where the model uses \texttt{rdf:type} without declaring the \texttt{rdf:} prefix.
+
+\subsection{Baseline vs RAG Evaluation}
+
+Six questions were designed so both the LLM and the RAG pipeline can attempt them, but KG grounding should give more accurate answers.
+
+\begin{table}[H]
+\centering\small
+\begin{tabular}{|p{4.6cm}|p{3.7cm}|p{3.7cm}|}
+\hline
+\textbf{Question} & \textbf{Baseline (LLM only)} & \textbf{RAG (LLM + KG)} \\
+\hline
+Which team does Damian Lillard play for?    & Portland Trail Blazers (outdated) & \textbf{Milwaukee Bucks} \\
+What nationality is Victor Wembanyama?      & Cameroonian (wrong)               & \textbf{French} \\
+What nationality is Giannis Antetokounmpo?  & Nigerian and Greek (wrong)        & \textbf{Greek} \\
+Which team does LeBron James play for?      & Cleveland Cavaliers (outdated)    & \textbf{Los Angeles Lakers} \\
+Is the Boston Celtics a team or a player?   & Team                              & \textbf{Team} \\
+Which team does Jayson Tatum play for?      & Boston Celtics                    & \textbf{Boston Celtics} \\
+\hline
+\end{tabular}
+\caption{Baseline vs RAG on 6 demo questions}
+\end{table}
+
+The RAG pipeline returned correct answers for all six questions at the SPARQL level. The baseline gave wrong or outdated answers for Q1--Q4, precisely the cases where factual grounding matters most.
+
+Q1 revealed an interesting failure mode: the SPARQL query correctly retrieved ``Milwaukee Bucks'' from the KG, but the LLM summariser then overrode the result with its own training-data belief (Trail Blazers), ignoring the retrieved evidence. This is a known limitation of small LLMs when retrieved facts contradict their priors.
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{rag_demo_q1.png}
+        \caption{Q1: KG returns Milwaukee Bucks; summariser overrides with Trail Blazers}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{rag_demo_q2.png}
+        \caption{Q2: baseline says Cameroonian; RAG returns French}
+    \end{subfigure}
+    \\[4pt]
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{rag_demo_q3.png}
+        \caption{Q3: baseline says Nigerian and Greek; RAG returns Greek}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{rag_demo_q4.png}
+        \caption{Q4: baseline mentions Cavaliers; RAG returns Los Angeles Lakers}
+    \end{subfigure}
+    \caption{RAG demo questions Q1--Q4: Baseline vs RAG}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{rag_demo_q5.png}
+        \caption{Q5: Boston Celtics type -- both correctly answer Team}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{rag_demo_q6.png}
+        \caption{Q6: Tatum's team -- both answer Boston Celtics}
+    \end{subfigure}
+    \caption{RAG demo questions Q5--Q6}
+\end{figure}
+
+\subsection{Interactive Mode}
+
+Three additional questions were tested in interactive mode: Joel Embiid's nationality (Cameroonian), Kevin Durant's current team (Phoenix Suns), and Dirk Nowitzki's nationality (German). The baseline was wrong or uncertain on the first two; RAG retrieved the correct facts from the KG in all three cases.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{rag_interactive.png}
+    \caption{Interactive RAG session: Embiid nationality, Durant's team, Nowitzki nationality}
+\end{figure}
+
+%==============================================================
+\section{Critical Reflection}
+%==============================================================
+
+\subsection{KB Quality}
+
+NER extracts entity mentions but no relations. The initial KB contains only \texttt{rdf:type}, \texttt{rdfs:label}, and \texttt{prov:wasDerivedFrom} triples; there are no \texttt{playsFor} or \texttt{wonAward} facts from the crawled text. SPARQL expansion partially fills this gap but only for the 33 aligned entities. A dedicated relation extraction step would significantly improve KB richness.
+
+Wikidata's \texttt{P54} stores full career history, so bridging it directly gives outdated facts (LeBron James linked to Miami Heat rather than the Lakers). We used hardcoded current-season facts as a workaround, but a proper fix would require querying Wikidata for the most recent property values.
+
+\subsection{Alignment and Reasoning Limitations}
+
+With only 33 manual records, most KB entities have no external link. Scaling would require automatic tools like OpenTapioca or GENRE. SWRL rules are precise but can only derive facts already implicit in the KB. KGE models can predict missing links from structural patterns, but the relation-sparse KB limits the signal available, which explains why the best MRR (0.2562) is well below values seen on dense benchmark graphs like FB15k or WN18RR.
+
+\subsection{RAG Limitations}
+
+Two failure modes appeared in testing. First, the LLM summariser sometimes rejects retrieved facts that contradict its training data, as seen in Q1. Second, multi-hop queries are unreliable because the small model tends to generate oversimplified SPARQL. The self-repair loop handles syntax errors but cannot fix semantically incorrect queries. Improvements would include relation extraction for a richer KB, a larger LLM (7B+) for more reliable generation, and broader entity alignment.
+
+\end{document}
